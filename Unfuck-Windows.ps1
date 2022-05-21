@@ -120,7 +120,7 @@ if($SkipBadDisks) {
         [void](fsutil dirty set "C:")
     }
   } else {
-    foreach ( $i in (Get-Volume | where DriveLetter -ne $null).DriveLetter ) { PassFail -Message "Setting Drive `"${i}:\`" as Dirty. CHKDSK will be performed on reboot." -ScriptBlock {
+    foreach ( $i in (Get-Volume | Where-Object DriveLetter -ne $null).DriveLetter ) { PassFail -Message "Setting Drive `"${i}:\`" as Dirty. CHKDSK will be performed on reboot." -ScriptBlock {
         [void](fsutil dirty set "${i}:")
     }}
   }
