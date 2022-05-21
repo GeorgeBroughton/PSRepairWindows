@@ -2,6 +2,7 @@ Param (
   [parameter(Mandatory=$false)][Switch]$SkipSystemScans,
   [parameter(Mandatory=$false)][Switch]$SkipUWP,
   [parameter(Mandatory=$false)][Switch]$SkipBadDisks,
+  [parameter(Mandatory=$false)][Switch]$CDriveOnly,
   [parameter(Mandatory=$false)][Switch]$NoRestart
 )
 
@@ -113,10 +114,15 @@ if($SkipUWP) {
 if($SkipBadDisks) {
   Write-Header "<< Skipping `"Setting Disks as Dirty`" Stage Due to -SkipBadDisks >>" -Skipped
 } else {
-  Write-Header "Setting Disks as Dirty"
-  foreach ( $i in (Get-Volume | where DriveLetter -ne $null).DriveLetter ) { PassFail -Message "Setting Drive `"${i}:\`" as Dirty" -ScriptBlock {
-      [void](fsutil dirty set "${i}:")
+  if ($CDriveOnly) {
+    PassFail -Message "Setting Drive `"C:\`" as Dirty. CHKDSK will be performed on reboot." -ScriptBlock {
+        [void](fsutil dirty set "C:")
     }
+  } else {
+    Write-Header "Setting Disks as Dirty"
+    foreach ( $i in (Get-Volume | where DriveLetter -ne $null).DriveLetter ) { PassFail -Message "Setting Drive `"${i}:\`" as Dirty. CHKDSK will be performed on reboot." -ScriptBlock {
+        [void](fsutil dirty set "${i}:")
+    }}
   }
 }
 
