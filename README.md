@@ -1,6 +1,6 @@
 # Unfuck-Windows
 Is windows fucked up? Need to reinstall? Try this first.
----
+
 
 It's just a script designed to be run from the PowerShell command line.  Not a full CMDlet, as i have my doubts it'll be used frequently enough for it to be one.
 
