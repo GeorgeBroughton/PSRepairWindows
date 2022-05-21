@@ -1,2 +1,27 @@
 # Unfuck-Windows
 Is windows fucked up? Need to reinstall? Try this first.
+---
+
+It's just a script designed to be run from the PowerShell command line.  Not a full CMDlet, as i have my doubts it'll be used frequently enough for it to be one.
+
+## Usage
+
+```
+& "C:\Temp\Unfuck-Windows.ps1" [-SkipSystemScans] [-SkipUWP] [-SkipBadDisks] [-NoRestart]
+```
+
+## Switches
+### -SkipSystemScans
+Skips the SFC scan, and also the DISM scans
+
+
+### -SkipUWP
+Skips Windows Store app resets & store reset.
+
+
+### -SkipBadDisks
+Skips disk checking. CHKDSK isn't run on next restart.
+
+
+### -NoRestart
+This one's self explanatory but basically the script by default restarts your computer so it can do an offline scan of the disks. Select this option if you don't want to restart at the end.
