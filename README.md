@@ -22,6 +22,8 @@ Skips Windows Store app resets & store reset.
 ### -SkipBadDisks
 Skips disk checking. CHKDSK isn't run on next restart.
 
+### -CDriveOnly
+Checks only the C:\ drive. Useful if you know the problem isn't related to other disks in your system.
 
 ### -NoRestart
 This one's self explanatory but basically the script by default restarts your computer so it can do an offline scan of the disks. Select this option if you don't want to restart at the end.

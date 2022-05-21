@@ -32,7 +32,7 @@ switch ($PowerShellVersion) {
 
       Write-Host -NoNewLine " [ ] - $Message"
 
-      $ErrorAction = "SilentlyContinue"
+      $ErrorActionPreference = "SilentlyContinue"
       $ScriptBlock.Invoke()
 
       if($?) {
@@ -51,7 +51,7 @@ switch ($PowerShellVersion) {
 
       Write-Host -NoNewLine " [....] - $Message"
 
-      $ErrorAction = "SilentlyContinue"
+      $ErrorActionPreference = "SilentlyContinue"
       $ScriptBlock.Invoke()
 
       if($?) {
@@ -67,6 +67,7 @@ Write-Header "Warnings"
 if($SkipSystemScans) { Write-Host " [!] - [WARN] System Scans Will Be Skipped" }
 if($SkipUWP)         { Write-Host " [!] - [WARN] Universal Windows Apps Will Be Skipped" }
 if($SkipBadDisks)    { Write-Host " [!] - [WARN] Disk Check Will Be Skipped" }
+if($CDriveOnly)      { Write-Host " [!] - [WARN] All Disks Except C:\ Will Be Skipped" }
 if($NoRestart)       { Write-Host " [!] - [WARN] Restart Will Be Skipped" }
 
 Write-Header "Clearing Windows Update Cache"
