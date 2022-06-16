@@ -7,7 +7,7 @@ It's just a script designed to be run from the PowerShell command line.  Not a f
 ## Usage
 
 ```
-& "C:\Temp\Unfuck-Windows.ps1" [-SkipSystemScans] [-SkipUWP] [-SkipBadDisks] [-NoRestart]
+& "C:\Temp\Repair-Windows.ps1" [-SkipSystemScans] [-SkipUWP] [-SkipBadDisks] [-CDriveOnly] [-NoRestart]
 ```
 
 ## Switches
