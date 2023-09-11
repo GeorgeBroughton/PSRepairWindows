@@ -76,14 +76,35 @@ Write-Header "Clearing Windows Update Cache"
   PassFail -Message "Stopping Background Intelligent Transfer Service" -ScriptBlock { Stop-Service -Name "bits"      -Force }
   PassFail -Message "Stopping Microsoft Installer Service"             -ScriptBlock { Stop-Service -Name "msiserver" -Force }
 
-  PassFail -Message "Deleting Contents of `"$env:windir\SoftwareDistribution\Download`""                -ScriptBlock { Remove-Item "$env:windir\SoftwareDistribution\Download"                -Recurse -Force }
-  PassFail -Message "Deleting Contents of `"$env:windir\SoftwareDistribution\DataStore`""               -ScriptBlock { Remove-Item "$env:windir\SoftwareDistribution\DataStore"               -Recurse -Force }
-  PassFail -Message "Deleting Contents of `"$env:windir\SoftwareDistribution\PostRebootEventCache.V2`"" -ScriptBlock { Remove-Item "$env:windir\SoftwareDistribution\PostRebootEventCache.V2" -Recurse -Force }
+  PassFail -Message "Deleting Contents of `"$env:windir\SoftwareDistribution\Download`""                                    -ScriptBlock { Remove-Item "$env:windir\SoftwareDistribution\Download"                                    -Recurse -Force }
+  PassFail -Message "Deleting Contents of `"$env:windir\SoftwareDistribution\DataStore`""                                   -ScriptBlock { Remove-Item "$env:windir\SoftwareDistribution\DataStore"                                   -Recurse -Force }
+  PassFail -Message "Deleting Contents of `"$env:windir\SoftwareDistribution\PostRebootEventCache.V2`""                     -ScriptBlock { Remove-Item "$env:windir\SoftwareDistribution\PostRebootEventCache.V2"                     -Recurse -Force }
+  PassFail -Message "Deleting Contents of `"$env:windir\System32\catroot2`""                                                -ScriptBlock { Remove-Item "$env:windir\System32\catroot2"                                                -Recurse -Force }
+  PassFail -Message "Deleting Contents of `"$env:allusersprofile\Application Data\Microsoft\Network\Downloader\qmgr*.dat`"" -ScriptBlock { Remove-Item "$env:allusersprofile\Application Data\Microsoft\Network\Downloader\qmgr*.dat" -Recurse -Force }
+
+  cmd /c "sc.exe sdset bits D:(A;CI;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)"
+  cmd /c "sc.exe sdset wuauserv D:(A;;CCLCSWRPLORC;;;AU)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;SY)"
+  
+  Set-Location -Path "$env:windir\system32"
+
+  "atl.dll","urlmon.dll","mshtml.dll","shdocvw.dll","browseui.dll","jscript.dll","vbscript.dll","scrrun.dll","msxml.dll","msxml3.dll","msxml6.dll","actxprxy.dll","softpub.dll","wintrust.dll","dssenh.dll","rsaenh.dll","gpkcsp.dll","sccbase.dll","slbcsp.dll","cryptdlg.dll","oleaut32.dll","ole32.dll","shell32.dll","initpki.dll","wuapi.dll","wuaueng.dll","wuaueng1.dll","wucltui.dll","wups.dll","wups2.dll","wuweb.dll","qmgr.dll","qmgrprxy.dll","wucltux.dll","muweb.dll","wuwebv.dll" | ForEach-Object {
+    if (Test-Path -Path "C:\Windows\system32\$_") {
+      regsvr32.exe "C:\Windows\System32\$_"
+    } else {
+      "Could not find $_"
+    }
+  }
+  Start-Sleep -Secods 5
+  Stop-Process -Name "regsvr32" -Force
+
+  netsh winsock reset
 
   PassFail -Message "Starting Windows Update Service"                  -ScriptBlock { Start-Service -Name "wuauserv"  }
   PassFail -Message "Starting Cryptographic Service"                   -ScriptBlock { Start-Service -Name "CryptSvc"  }
   PassFail -Message "Starting Background Intelligent Transfer Service" -ScriptBlock { Start-Service -Name "bits"      }
   PassFail -Message "Starting Microsoft Installer Service"             -ScriptBlock { Start-Service -Name "msiserver" }
+
+  bitsadmin.exe /reset /allusers
 
 Write-Header "Clearing Windows Prefetch Cache"
   PassFail -Message "Deleting Contents of `"$env:windir\prefetch`"" -ScriptBlock { Remove-Item -Path "$env:windir\prefetch" -Recurse -Force }
@@ -92,6 +113,11 @@ Write-Header "Clearing Temp Directories"
   PassFail -Message "Deleting Contents of `"$env:localappdata\Temp\*`"" -ScriptBlock { Remove-Item -Path "$env:localappdata\Temp\*" -Recurse -Force }
   PassFail -Message "Deleting Contents of `"$env:windir\Temp\*`""       -ScriptBlock { Remove-Item -Path "$env:windir\Temp\*"       -Recurse -Force }
 
+Write-Header "Clearing Icon Cache"
+  PassFail -Message "Killing Explorer.exe temporarily while the cache is cleared"                     -ScriptBlock { Stop-Process -Name 'Explorer' -Force                                                                                                                 }
+  PassFail -Message "Deleting icon cache files from `"$env:localappdata\Microsoft\Windows\Explorer`"" -ScriptBlock { Get-ChildItem -File -Recurse -Path "$env:localappdata\Microsoft\Windows\Explorer" | Where-Object Name -Match 'iconcache.*\.db' | Remove-item -Force  }
+  PassFail -Message "Starting Explorer.exe now it is cleared"                                         -ScriptBlock { Start-Process -FilePath "$env:windir\Explorer.exe"                                                                                                   }
+  
 Write-Header "Clearing CCMCache"
   PassFail -Message "Deleting Contents of `"$env:windir\CCMCache\*`"" -ScriptBlock { Remove-Item -Path "$env:windir\CCMCache\*" -Recurse -Force -Verbose }
 
