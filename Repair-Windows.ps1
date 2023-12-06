@@ -94,7 +94,7 @@ Write-Header "Clearing Windows Update Cache"
       "Could not find $_"
     }
   }
-  Start-Sleep -Secods 5
+  Start-Sleep -Seconds 5
   Stop-Process -Name "regsvr32" -Force
 
   netsh winsock reset
