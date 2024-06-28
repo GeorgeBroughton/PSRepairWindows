@@ -27,3 +27,15 @@ Checks only the C:\ drive. Useful if you know the problem isn't related to other
 
 ### -NoRestart
 This one's self explanatory but basically the script by default restarts your computer so it can do an offline scan of the disks. Select this option if you don't want to restart at the end.
+
+# To do
+- [ ] Registry cleaning & backup
+- [ ] System restore points
+- [ ] Offline virus scanning
+- [ ] Aggressive driver removal
+- [ ] Scheduling memory diagnostics using bcd
+- [ ] Backup features
+- [ ] GUI
+- [ ] Debloat
+- [ ] Telemetry blocking
+- [ ] Hardening
