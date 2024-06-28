@@ -29,6 +29,8 @@ Checks only the C:\ drive. Useful if you know the problem isn't related to other
 This one's self explanatory but basically the script by default restarts your computer so it can do an offline scan of the disks. Select this option if you don't want to restart at the end.
 
 # To do
+- [ ] Convert to a complete powershell module
+- [ ] Release on PSGallery
 - [ ] Registry cleaning & backup
 - [ ] System restore points
 - [ ] Offline virus scanning
