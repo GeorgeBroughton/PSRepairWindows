@@ -42,3 +42,4 @@ This one's self explanatory but basically the script by default restarts your co
 - [ ] Debloat
 - [ ] Telemetry blocking
 - [ ] Hardening
+- [ ] Full Windows 11 support (will need help with this as none of my computers support win11)
