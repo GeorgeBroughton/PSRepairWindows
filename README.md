@@ -30,6 +30,7 @@ This one's self explanatory but basically the script by default restarts your co
 
 # To do
 - [ ] Convert to a complete powershell module
+- [ ] Polish the dll registration code as it is kinda messy and spams the users screen with error messages unnecessarily
 - [ ] Release on PSGallery
 - [ ] Registry cleaning & backup
 - [ ] System restore points
