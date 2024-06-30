@@ -35,6 +35,9 @@ This one's self explanatory but basically the script by default restarts your co
   - [ ] Add a spot for optional places for DLL registraction. i.e. appdata, program files, program data etc
 - [ ] Release on PSGallery
 - [ ] Registry cleaning & backup
+  - [ ] Bluetooth profile erasure
+  - [ ] Display profile erasure
+  - [ ] Do *something* about autorun applications... not sure what or how yet
 - [ ] System restore points
 - [ ] Offline virus scanning
 - [ ] Aggressive driver removal
