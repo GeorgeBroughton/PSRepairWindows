@@ -30,7 +30,9 @@ This one's self explanatory but basically the script by default restarts your co
 
 # To do
 - [ ] Convert to a complete powershell module
+  - [ ] Make every fix done in this a separate command, which can be invoked separately, or in one function that runs them consecutively
 - [ ] Polish the dll registration code as it is kinda messy and spams the users screen with error messages unnecessarily
+  - [ ] Add a spot for optional places for DLL registraction. i.e. appdata, program files, program data etc
 - [ ] Release on PSGallery
 - [ ] Registry cleaning & backup
 - [ ] System restore points
