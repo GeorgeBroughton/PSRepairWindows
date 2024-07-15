@@ -41,6 +41,7 @@ This one's self explanatory but basically the script by default restarts your co
 - [ ] System restore points
 - [ ] Offline virus scanning
 - [ ] Aggressive driver removal
+- [ ] Bluetooth stack resets and device removal
 - [ ] Scheduling memory diagnostics using bcd
 - [ ] Backup features
 - [ ] GUI
