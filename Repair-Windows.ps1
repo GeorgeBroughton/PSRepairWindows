@@ -106,12 +106,14 @@ Write-Header "Clearing Windows Update Cache"
 
   bitsadmin.exe /reset /allusers
 
-Write-Header "Clearing Windows Prefetch Cache"
+Write-Header "Clearing Superfluous Windows Files"
+  PassFail -Message "[DISM] Cleaning up the Windows Component Store"    -ScriptBlock { [void](DISM /Online /Cleanup-Image /RestoreHealth) }
   PassFail -Message "Deleting Contents of `"$env:windir\prefetch`"" -ScriptBlock { Remove-Item -Path "$env:windir\prefetch" -Recurse -Force }
 
 Write-Header "Clearing Temp Directories"
   PassFail -Message "Deleting Contents of `"$env:localappdata\Temp\*`"" -ScriptBlock { Remove-Item -Path "$env:localappdata\Temp\*" -Recurse -Force }
   PassFail -Message "Deleting Contents of `"$env:windir\Temp\*`""       -ScriptBlock { Remove-Item -Path "$env:windir\Temp\*"       -Recurse -Force }
+  PassFail -Message "Deleting Contents of `"C:\Temp\*`""                -ScriptBlock { Remove-Item -Path "C:\Temp\*"                -Recurse -Force }
 
 Write-Header "Clearing Icon Cache"
   PassFail -Message "Killing Explorer.exe temporarily while the cache is cleared"                     -ScriptBlock { Stop-Process -Name 'Explorer' -Force                                                                                                                 }
@@ -125,9 +127,11 @@ if($SkipSystemScans) {
   Write-Header "<< Skipping `"Running System Scans`" Stage Due To -SkipSystemScans >>" -Skipped
 } else {
   Write-Header "Running System Scans"
-    PassFail -Message "[SFC ] Scaning and Repairing Corrupt System Files" -ScriptBlock { [void](sfc /scannow) }
+    
     PassFail -Message "[DISM] Checking health"                            -ScriptBlock { [void](DISM /Online /Cleanup-Image /CheckHealth) }
+    PassFail -Message "[DISM] Checking health"                            -ScriptBlock { [void](DISM /Online /Cleanup-Image /Scanhealth) }
     PassFail -Message "[DISM] Restoring health"                           -ScriptBlock { [void](DISM /Online /Cleanup-Image /RestoreHealth) }
+    PassFail -Message "[SFC ] Scaning and Repairing Corrupt System Files" -ScriptBlock { [void](sfc /scannow) }
 }
 
 if($SkipUWP) {
