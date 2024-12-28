@@ -129,7 +129,7 @@ if($SkipSystemScans) {
   Write-Header "Running System Scans"
     
     PassFail -Message "[DISM] Checking health"                            -ScriptBlock { [void](DISM /Online /Cleanup-Image /CheckHealth) }
-    PassFail -Message "[DISM] Checking health"                            -ScriptBlock { [void](DISM /Online /Cleanup-Image /Scanhealth) }
+    PassFail -Message "[DISM] Scanning health"                            -ScriptBlock { [void](DISM /Online /Cleanup-Image /Scanhealth) }
     PassFail -Message "[DISM] Restoring health"                           -ScriptBlock { [void](DISM /Online /Cleanup-Image /RestoreHealth) }
     PassFail -Message "[SFC ] Scaning and Repairing Corrupt System Files" -ScriptBlock { [void](sfc /scannow) }
 }
